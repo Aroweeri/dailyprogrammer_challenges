@@ -26,6 +26,18 @@ char* smorse(char* word) {
 	return builder;
 }
 
+char* reverse (char* word) {
+	char *r = calloc(1, sizeof(char)*(strlen(word)+1));
+	int i;
+	int j = 0;
+	for(i=strlen(word)-1;i>=0;i--) {
+		r[j] = word[i];
+		j++;
+	}
+	r[j]='\0';
+	return r;
+}
+
 char* readWord(FILE* fp) {
 	int location = 0;
 	char* letter = NULL;
@@ -82,8 +94,13 @@ int main() {
 	int totalDots = 0;
 	int totalDashes = 0;
 	int best = 0;
+
+	/* bonus 2 */
 	int dashCount = 0;
 	int bestDashCount = 0;
+
+	/* bonus 3 */
+	char* reversed;
 
 	while (done == 0) {
 		word = readWord(fp);
@@ -159,6 +176,17 @@ int main() {
 		if(bestDashCount >13 ) {
 			printf("%s: %s: %d\n", words[i], allSmorse[i], bestDashCount);
 		}
+	}
+	/* end */
+
+	/* start bonus 3 */
+	for(i=0;i<currentWord;i++) {
+		reversed = reverse(allSmorse[i]);
+		if(strcmp(reversed, allSmorse[i]) == 0) {
+			printf("Found:\n%s\n%s\n", reversed, allSmorse[i]);
+		}
+		free(reversed);
+		reversed = NULL;
 	}
 	/* end */
 
