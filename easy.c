@@ -82,6 +82,8 @@ int main() {
 	int totalDots = 0;
 	int totalDashes = 0;
 	int best = 0;
+	int dashCount = 0;
+	int bestDashCount = 0;
 
 	while (done == 0) {
 		word = readWord(fp);
@@ -105,8 +107,8 @@ int main() {
 		sortedSmorse[i] = malloc(sizeof(char*)*strlen(allSmorse[i]));
 		strcpy(sortedSmorse[i], allSmorse[i]);
 	}
-	/*qsort(sortedSmorse, currentWord, sizeof(char*), cmpstring);*/
-	qsort(allSmorse, currentWord, sizeof(char*), cmpstring);
+	qsort(sortedSmorse, currentWord, sizeof(char*), cmpstring);
+	/*qsort(allSmorse, currentWord, sizeof(char*), cmpstring);*/
 
 
 	/* start count dots and dashes */
@@ -124,7 +126,7 @@ int main() {
 
 	/* start bonus 1 */
 	for(i=1;i<currentWord;i++) {
-		if(strcmp(allSmorse[i], allSmorse[i-1]) == 0) {
+		if(strcmp(sortedSmorse[i], sortedSmorse[i-1]) == 0) {
 			hits++;
 		} else {
 			hits = 1;
@@ -138,7 +140,26 @@ int main() {
 	/* end */
 
 	/* start bonus 2 */
-	
+	for(i=0;i<currentWord;i++) {
+		dashCount = 0;
+		bestDashCount = 0;
+		if(strlen(allSmorse[i]) < 15) {
+			continue;
+		}
+		for(j=0;j<strlen(allSmorse[i]);j++) {
+			if(allSmorse[i][j] == '-') {
+				dashCount++;
+			} else {
+				if(dashCount > bestDashCount) {
+					bestDashCount = dashCount;
+				}
+				dashCount = 0;
+			}
+		}
+		if(bestDashCount >13 ) {
+			printf("%s: %s: %d\n", words[i], allSmorse[i], bestDashCount);
+		}
+	}
 	/* end */
 
 	/* free memory */
