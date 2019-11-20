@@ -99,7 +99,10 @@ int main() {
 	int dashCount = 0;
 	int bestDashCount = 0;
 
-	/* bonus 3 */
+	/* bonus 3 vars */
+	int dotCount = 0;
+
+	/* bonus 4 */
 	char* reversed;
 
 	while (done == 0) {
@@ -181,9 +184,28 @@ int main() {
 
 	/* start bonus 3 */
 	for(i=0;i<currentWord;i++) {
+		if(strlen(words[i]) != 21) continue;
+		dotCount=0;
+		dashCount=0;
+		for(j=0;j<strlen(allSmorse[i]);j++) {
+			if(allSmorse[i][j] == '.')
+				dotCount++;
+			else
+				dashCount++;
+		}
+		if(dotCount == dashCount) {
+			printf("%s: %s\n", words[i], allSmorse[i]);
+		}
+	}
+	
+	/* end */
+
+	/* start bonus 4 */
+	for(i=0;i<currentWord;i++) {
+		if(strlen(words[i]) != 13) continue;
 		reversed = reverse(allSmorse[i]);
 		if(strcmp(reversed, allSmorse[i]) == 0) {
-			printf("Found:\n%s\n%s\n", reversed, allSmorse[i]);
+			printf("Found: %s\n%s\n%s\n", words[i], reversed, allSmorse[i]);
 		}
 		free(reversed);
 		reversed = NULL;
