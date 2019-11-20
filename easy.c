@@ -45,18 +45,18 @@ char* readWord(FILE* fp) {
 			word = realloc(word, sizeof(char)*location+CHUNK);
 
 			/* initialize new memory to NULL */
-			for(i=location;i<location+CHUNK;i++) {
+			for(i=location+1;i<location+CHUNK;i++) {
 				word[i] = 0;
 			}
+			letter = &(word[location-1]); /* get new address */
 
-			letter = &(word[location]);
 		}
 		if(*letter == EOF) {
 			free(word);
 			return NULL;
 		}
 		if(*letter == '\n') {
-			word[location-1] = '\0'; /*delete newline and write terminator*/
+			*letter = '\0'; /*delete newline and write terminator*/
 			return word;
 		}
 	}
@@ -110,8 +110,8 @@ int main() {
 
 
 	/* start count dots and dashes */
-	/*for(i=0;i<currentWord;i++) {
-		smorseWord = smorse(words[i]);
+	for(i=0;i<currentWord;i++) {
+		smorseWord = allSmorse[i];
 		for(j=0;j<strlen(smorseWord);j++) {
 			if(smorseWord[j] == '.') totalDots++;
 			else if(smorseWord[j] == '-') totalDashes++;
@@ -119,11 +119,11 @@ int main() {
 		}
 	}
 	printf("Dots: %d\n", totalDots);
-	printf("Dashes: %d\n", totalDashes);*/
+	printf("Dashes: %d\n", totalDashes);
 	/* end */
 
 	/* start bonus 1 */
-	/*for(i=1;i<currentWord;i++) {
+	for(i=1;i<currentWord;i++) {
 		if(strcmp(allSmorse[i], allSmorse[i-1]) == 0) {
 			hits++;
 		} else {
@@ -134,7 +134,7 @@ int main() {
 			bestHits = hits;
 		}
 	}
-	printf("Best: %s with %d hits.\n", allSmorse[best], bestHits);*/
+	printf("Best: %s with %d hits.\n", allSmorse[best], bestHits);
 	/* end */
 
 	/* start bonus 2 */
