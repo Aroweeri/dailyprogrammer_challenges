@@ -9,6 +9,8 @@ char *letters[] = {".-\0","-...\0","-.-.\0","-..\0",".\0","..-.\0","--.\0","....
                    ".---\0","-.-\0",".-..\0","--\0","-.\0","---\0",".--.\0","--.-\0",".-.\0",
                    "...\0","-\0","..-\0","...-\0",".--\0","-..-\0","-.--\0","--..\0"};
 
+void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse);
+
 char* smorse(char* word) {
 	int i;
 	char* builder;
@@ -20,6 +22,20 @@ char* smorse(char* word) {
 		strcat(builder, letters[word[i]-97]); 
 	}
 	return builder;
+}
+
+void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse) {
+	int i;
+	int j;
+	char* smorseWord;
+	for(i=0;i<totalWords;i++) {
+		smorseWord = allSmorse[i];
+		for(j=0;j<strlen(smorseWord);j++) {
+			if(smorseWord[j] == '.') (*totalDots)++;
+			else if(smorseWord[j] == '-') (*totalDashes)++;
+			else printf("Something else.\n");
+		}
+	}
 }
 
 char* reverse (char* word) {
@@ -87,7 +103,6 @@ int main() {
 	int j = 0;
 	int hits = 1; /* there's always at least 1 instance of each smorse. */
 	int bestHits = 0;
-	char* smorseWord;
 	int totalDots = 0;
 	int totalDashes = 0;
 	int best = 0;
@@ -127,19 +142,9 @@ int main() {
 	}
 	qsort(sortedSmorse, totalWords, sizeof(char*), cmpstring);
 
-
-	/* start count dots and dashes */
-	for(i=0;i<totalWords;i++) {
-		smorseWord = allSmorse[i];
-		for(j=0;j<strlen(smorseWord);j++) {
-			if(smorseWord[j] == '.') totalDots++;
-			else if(smorseWord[j] == '-') totalDashes++;
-			else printf("Something else.\n");
-		}
-	}
+	countDotsAndDashes(&totalDots, &totalDashes, totalWords, allSmorse);
 	printf("Dots: %d\n", totalDots);
 	printf("Dashes: %d\n", totalDashes);
-	/* end */
 
 	/* start bonus 1 */
 	for(i=1;i<totalWords;i++) {
