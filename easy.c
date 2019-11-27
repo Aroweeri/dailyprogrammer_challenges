@@ -77,6 +77,7 @@ int cmpstring(void const *p1, void const *p2) {
 int main() {
 	FILE *fp = fopen("enable1.txt", "r");
 	int currentWord = 0;
+	int totalWords = 0;
 	char** words = calloc(1, sizeof(char*)*CHUNK);
 	char** allSmorse = NULL;
 	char** sortedSmorse = NULL;
@@ -113,21 +114,22 @@ int main() {
 			words = realloc(words, (sizeof(char*)*currentWord+sizeof(char*)*CHUNK));
 		}
 	}
+	totalWords = currentWord;
 
-	allSmorse = malloc(sizeof(char*)*currentWord);
-	for(i=0;i<currentWord;i++) {
+	allSmorse = malloc(sizeof(char*)*totalWords);
+	for(i=0;i<totalWords;i++) {
 		allSmorse[i] = smorse(words[i]);
 	}
-	sortedSmorse = calloc(currentWord, sizeof(char*));
-	for(i=0;i<currentWord;i++) {
+	sortedSmorse = calloc(totalWords, sizeof(char*));
+	for(i=0;i<totalWords;i++) {
 		sortedSmorse[i] = malloc(sizeof(char*)*strlen(allSmorse[i]));
 		strcpy(sortedSmorse[i], allSmorse[i]);
 	}
-	qsort(sortedSmorse, currentWord, sizeof(char*), cmpstring);
+	qsort(sortedSmorse, totalWords, sizeof(char*), cmpstring);
 
 
 	/* start count dots and dashes */
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		smorseWord = allSmorse[i];
 		for(j=0;j<strlen(smorseWord);j++) {
 			if(smorseWord[j] == '.') totalDots++;
@@ -140,7 +142,7 @@ int main() {
 	/* end */
 
 	/* start bonus 1 */
-	for(i=1;i<currentWord;i++) {
+	for(i=1;i<totalWords;i++) {
 		if(strcmp(sortedSmorse[i], sortedSmorse[i-1]) == 0) {
 			hits++;
 		} else {
@@ -155,7 +157,7 @@ int main() {
 	/* end */
 
 	/* start bonus 2 */
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		dashCount = 0;
 		bestDashCount = 0;
 		if(strlen(allSmorse[i]) < 15) {
@@ -178,7 +180,7 @@ int main() {
 	/* end */
 
 	/* start bonus 3 */
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		if(strlen(words[i]) != 21) continue;
 		dotCount=0;
 		dashCount=0;
@@ -196,7 +198,7 @@ int main() {
 	/* end */
 
 	/* start bonus 4 */
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		if(strlen(words[i]) != 13) continue;
 		reversed = reverse(allSmorse[i]);
 		if(strcmp(reversed, allSmorse[i]) == 0) {
@@ -208,13 +210,13 @@ int main() {
 	/* end */
 
 	/* free memory */
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		free(words[i]);
 	}
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		free(sortedSmorse[i]);
 	}
-	for(i=0;i<currentWord;i++) {
+	for(i=0;i<totalWords;i++) {
 		free(allSmorse[i]);
 	}
 	free(allSmorse);
