@@ -105,6 +105,12 @@ int main() {
 	/* bonus 4 */
 	char* reversed;
 
+	/* bonus 5 */
+	char** bonus5List;
+	int bonus5ListCounter;
+	char comparePattern[13];
+	char bonus5ListFound;
+
 	while (done == 0) {
 		word = readWord(fp);
 		if(word == NULL) {
@@ -210,6 +216,50 @@ int main() {
 		free(reversed);
 		reversed = NULL;
 	}
+	/* end */
+
+	/* start bonus 5 */
+
+	/* make list of all smorses that have 13 characters */
+	bonus5List = calloc(currentWord, sizeof(char*));
+	bonus5ListCounter = 0;
+	for(i=0;i<currentWord;i++) {
+		if(strlen(allSmorse[i]) == 13) {
+			bonus5List[bonus5ListCounter] = allSmorse[i];
+			bonus5ListCounter++;
+		}
+	}
+	bonus5List = realloc(bonus5List, sizeof(char*)*(bonus5ListCounter-1));
+
+	for(i=0;i<8191;i++) {
+		bonus5ListFound=0;
+		comparePattern[0] =  ((i & 0x0001) == 0x0001) ? '.' : '-';
+		comparePattern[1] =  ((i & 0x0002) == 0x0002) ? '.' : '-';
+		comparePattern[2] =  ((i & 0x0004) == 0x0004) ? '.' : '-';
+		comparePattern[3] =  ((i & 0x0008) == 0x0008) ? '.' : '-';
+		comparePattern[4] =  ((i & 0x0010) == 0x0010) ? '.' : '-';
+		comparePattern[5] =  ((i & 0x0020) == 0x0020) ? '.' : '-';
+		comparePattern[6] =  ((i & 0x0040) == 0x0040) ? '.' : '-';
+		comparePattern[7] =  ((i & 0x0080) == 0x0080) ? '.' : '-';
+		comparePattern[8] =  ((i & 0x0100) == 0x0100) ? '.' : '-';
+		comparePattern[9] =  ((i & 0x0200) == 0x0200) ? '.' : '-';
+		comparePattern[10] = ((i & 0x0400) == 0x0400) ? '.' : '-';
+		comparePattern[11] = ((i & 0x0800) == 0x0800) ? '.' : '-';
+		comparePattern[12] = ((i & 0x1000) == 0x1000) ? '.' : '-';
+		printf("%d\n", bonus5ListCounter);
+		for(j=0;j<bonus5ListCounter;j++) {
+			/*printf("%s\n", bonus5List[j]);
+			printf("%s\n", comparePattern);*/
+			if(strcmp(comparePattern, bonus5List[j]) == 0) {
+				bonus5ListFound=1;
+			}
+		}
+		if(bonus5ListFound == 1) {
+			printf("%s\n", comparePattern);
+		}
+	}
+	free(bonus5List);
+
 	/* end */
 
 	/* free memory */
