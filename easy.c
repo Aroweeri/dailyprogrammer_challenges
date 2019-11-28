@@ -78,6 +78,26 @@ void bonus2(char** allSmorse, char** words, int totalWords) {
 	}
 }
 
+void bonus3(char** words, char** allSmorse, int totalWords) {
+	int i;
+	int j;
+	int dotCount = 0;
+	int dashCount = 0;
+	for(i=0;i<totalWords;i++) {
+		if(strlen(words[i]) != 21) continue;
+		dotCount=0;
+		dashCount=0;
+		for(j=0;j<strlen(allSmorse[i]);j++) {
+			if(allSmorse[i][j] == '.')
+				dotCount++;
+			else
+				dashCount++;
+		}
+		if(dotCount == dashCount) {
+			printf("%s: %s\n", words[i], allSmorse[i]);
+		}
+	}
+}
 
 void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse) {
 	int i;
@@ -155,14 +175,8 @@ int main() {
 	char* word = NULL;
 	char done = 0;
 	int i = 0;
-	int j = 0;
 	int totalDots = 0;
 	int totalDashes = 0;
-
-
-	/* bonus 3 vars */
-	int dotCount = 0;
-	int dashCount = 0;
 
 	/* bonus 4 */
 	char* reversed;
@@ -199,23 +213,8 @@ int main() {
 	bonus1(sortedSmorse, allSmorse, totalWords);
 	bonus2(allSmorse, words, totalWords);
 
-	/* start bonus 3 */
-	for(i=0;i<totalWords;i++) {
-		if(strlen(words[i]) != 21) continue;
-		dotCount=0;
-		dashCount=0;
-		for(j=0;j<strlen(allSmorse[i]);j++) {
-			if(allSmorse[i][j] == '.')
-				dotCount++;
-			else
-				dashCount++;
-		}
-		if(dotCount == dashCount) {
-			printf("%s: %s\n", words[i], allSmorse[i]);
-		}
-	}
-	
-	/* end */
+
+bonus3(words, allSmorse, totalWords);
 
 	/* start bonus 4 */
 	for(i=0;i<totalWords;i++) {
