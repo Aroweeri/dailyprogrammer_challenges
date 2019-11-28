@@ -13,6 +13,7 @@ char* smorse(char* word);
 void bonus1(char** sortedSmorse, char** allSmorse, int totalWords);
 void bonus2(char** allSmorse, char** words, int totalWords);
 void bonus3(char** words, char** allSmorse, int totalWords);
+void bonus4(char** words, char** allSmorse, int totalWords);
 void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse);
 char* reverse (char* word);
 char* readWord(FILE* fp);
@@ -99,6 +100,20 @@ void bonus3(char** words, char** allSmorse, int totalWords) {
 	}
 }
 
+void bonus4(char** words, char** allSmorse, int totalWords) {
+	int i;
+	char* reversed;
+	for(i=0;i<totalWords;i++) {
+		if(strlen(words[i]) != 13) continue;
+		reversed = reverse(allSmorse[i]);
+		if(strcmp(reversed, allSmorse[i]) == 0) {
+			printf("Found: %s\n%s\n%s\n", words[i], reversed, allSmorse[i]);
+		}
+		free(reversed);
+		reversed = NULL;
+	}
+}
+
 void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse) {
 	int i;
 	int j;
@@ -178,8 +193,6 @@ int main() {
 	int totalDots = 0;
 	int totalDashes = 0;
 
-	/* bonus 4 */
-	char* reversed;
 
 	while (done == 0) {
 		word = readWord(fp);
@@ -216,17 +229,7 @@ int main() {
 
 bonus3(words, allSmorse, totalWords);
 
-	/* start bonus 4 */
-	for(i=0;i<totalWords;i++) {
-		if(strlen(words[i]) != 13) continue;
-		reversed = reverse(allSmorse[i]);
-		if(strcmp(reversed, allSmorse[i]) == 0) {
-			printf("Found: %s\n%s\n%s\n", words[i], reversed, allSmorse[i]);
-		}
-		free(reversed);
-		reversed = NULL;
-	}
-	/* end */
+bonus4(words, allSmorse, totalWords);
 
 	/* free memory */
 	for(i=0;i<totalWords;i++) {
