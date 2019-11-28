@@ -10,6 +10,8 @@ char *letters[] = {".-\0","-...\0","-.-.\0","-..\0",".\0","..-.\0","--.\0","....
                    "...\0","-\0","..-\0","...-\0",".--\0","-..-\0","-.--\0","--..\0"};
 
 void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse);
+void bonus1(char** sortedSmorse, char** allSmorse, int totalWords);
+void bonus2(char** allSmorse, char** words, int totalWords);
 
 char* smorse(char* word) {
 	int i;
@@ -23,6 +25,54 @@ char* smorse(char* word) {
 	}
 	return builder;
 }
+
+void bonus1(char** sortedSmorse, char** allSmorse, int totalWords) {
+	int i;
+	int hits;
+	int bestHits;
+	int best;
+	/* As long as the value doesn't change (sorted list) we're counting occurences of that word. */
+	for(i=1;i<totalWords;i++) {
+		if(strcmp(sortedSmorse[i], sortedSmorse[i-1]) == 0) {
+			hits++;
+		} else {
+			hits = 1;
+		}
+		if(hits > bestHits) {
+			best = i;
+			bestHits = hits;
+		}
+	}
+	printf("Best: %s with %d hits.\n", allSmorse[best], bestHits);
+}
+
+void bonus2(char** allSmorse, char** words, int totalWords) {
+	int dashCount = 0;
+	int bestDashCount = 0;
+	int i;
+	int j;
+	for(i=0;i<totalWords;i++) {
+		dashCount = 0;
+		bestDashCount = 0;
+		if(strlen(allSmorse[i]) < 15) {
+			continue;
+		}
+		for(j=0;j<strlen(allSmorse[i]);j++) {
+			if(allSmorse[i][j] == '-') {
+				dashCount++;
+			} else {
+				if(dashCount > bestDashCount) {
+					bestDashCount = dashCount;
+				}
+				dashCount = 0;
+			}
+		}
+		if(bestDashCount >13 ) {
+			printf("%s: %s: %d\n", words[i], allSmorse[i], bestDashCount);
+		}
+	}
+}
+
 
 void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse) {
 	int i;
@@ -101,18 +151,13 @@ int main() {
 	char done = 0;
 	int i = 0;
 	int j = 0;
-	int hits = 1; /* there's always at least 1 instance of each smorse. */
-	int bestHits = 0;
 	int totalDots = 0;
 	int totalDashes = 0;
-	int best = 0;
 
-	/* bonus 2 */
-	int dashCount = 0;
-	int bestDashCount = 0;
 
 	/* bonus 3 vars */
 	int dotCount = 0;
+	int dashCount = 0;
 
 	/* bonus 4 */
 	char* reversed;
@@ -146,43 +191,8 @@ int main() {
 	printf("Dots: %d\n", totalDots);
 	printf("Dashes: %d\n", totalDashes);
 
-	/* start bonus 1 */
-	for(i=1;i<totalWords;i++) {
-		if(strcmp(sortedSmorse[i], sortedSmorse[i-1]) == 0) {
-			hits++;
-		} else {
-			hits = 1;
-		}
-		if(hits > bestHits) {
-			best = i;
-			bestHits = hits;
-		}
-	}
-	printf("Best: %s with %d hits.\n", allSmorse[best], bestHits);
-	/* end */
-
-	/* start bonus 2 */
-	for(i=0;i<totalWords;i++) {
-		dashCount = 0;
-		bestDashCount = 0;
-		if(strlen(allSmorse[i]) < 15) {
-			continue;
-		}
-		for(j=0;j<strlen(allSmorse[i]);j++) {
-			if(allSmorse[i][j] == '-') {
-				dashCount++;
-			} else {
-				if(dashCount > bestDashCount) {
-					bestDashCount = dashCount;
-				}
-				dashCount = 0;
-			}
-		}
-		if(bestDashCount >13 ) {
-			printf("%s: %s: %d\n", words[i], allSmorse[i], bestDashCount);
-		}
-	}
-	/* end */
+	bonus1(sortedSmorse, allSmorse, totalWords);
+	bonus2(allSmorse, words, totalWords);
 
 	/* start bonus 3 */
 	for(i=0;i<totalWords;i++) {
