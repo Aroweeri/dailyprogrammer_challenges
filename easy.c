@@ -9,9 +9,14 @@ char *letters[] = {".-\0","-...\0","-.-.\0","-..\0",".\0","..-.\0","--.\0","....
                    ".---\0","-.-\0",".-..\0","--\0","-.\0","---\0",".--.\0","--.-\0",".-.\0",
                    "...\0","-\0","..-\0","...-\0",".--\0","-..-\0","-.--\0","--..\0"};
 
-void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse);
+char* smorse(char* word);
 void bonus1(char** sortedSmorse, char** allSmorse, int totalWords);
 void bonus2(char** allSmorse, char** words, int totalWords);
+void bonus3(char** words, char** allSmorse, int totalWords);
+void countDotsAndDashes(int* totalDots, int* totalDashes, int totalWords, char** allSmorse);
+char* reverse (char* word);
+char* readWord(FILE* fp);
+int cmpstring(void const *p1, void const *p2);
 
 char* smorse(char* word) {
 	int i;
