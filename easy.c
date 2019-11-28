@@ -193,7 +193,7 @@ int main() {
 	int totalDots = 0;
 	int totalDashes = 0;
 
-
+	/* read all words from file */
 	while (done == 0) {
 		word = readWord(fp);
 		if(word == NULL) {
@@ -208,10 +208,13 @@ int main() {
 	}
 	totalWords = currentWord;
 
+	/* create list of all words converted to smorse */
 	allSmorse = malloc(sizeof(char*)*totalWords);
 	for(i=0;i<totalWords;i++) {
 		allSmorse[i] = smorse(words[i]);
 	}
+
+	/* sort smorse list */
 	sortedSmorse = calloc(totalWords, sizeof(char*));
 	for(i=0;i<totalWords;i++) {
 		sortedSmorse[i] = malloc(sizeof(char*)*strlen(allSmorse[i]));
@@ -225,11 +228,8 @@ int main() {
 
 	bonus1(sortedSmorse, allSmorse, totalWords);
 	bonus2(allSmorse, words, totalWords);
-
-
-bonus3(words, allSmorse, totalWords);
-
-bonus4(words, allSmorse, totalWords);
+	bonus3(words, allSmorse, totalWords);
+	bonus4(words, allSmorse, totalWords);
 
 	/* free memory */
 	for(i=0;i<totalWords;i++) {
