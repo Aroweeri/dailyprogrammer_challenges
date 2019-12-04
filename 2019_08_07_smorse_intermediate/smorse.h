@@ -1,0 +1,1 @@
+char* smorse(char* word);

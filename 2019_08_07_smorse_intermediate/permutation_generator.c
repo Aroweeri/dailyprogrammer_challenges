@@ -1,5 +1,4 @@
 #include "permutation_generator.h"
-#include "common.h"
 #include <sys/queue.h>
 #include <stdlib.h>
 #include <stdio.h>
