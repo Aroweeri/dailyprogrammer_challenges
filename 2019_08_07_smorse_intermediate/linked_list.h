@@ -1,7 +1,9 @@
 struct Node {
-	int data;
+	char* data;
 	struct Node *next;
 };
 
-void add_node(struct Node **head, int data);
-int get_index(int index, struct Node *head);
+void add_node(struct Node **head, char* data);
+char* get_index(int index, struct Node *head);
+void delete_index(int index, struct Node **head);
+void delete_list(struct Node **head);
