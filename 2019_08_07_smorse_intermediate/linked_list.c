@@ -26,30 +26,33 @@ char* get_index(int index, struct Node *head) {
 	return data;
 }
 
-void delete_index(int index, struct Node *head) {
+void delete_index(int index, struct Node **head) {
 	struct Node *n;
 	struct Node *prev;
 	int i;
 
-	n = head;
+	n = *head;
 	if(index == 0) {
-		n = head;
 		if(n == NULL) {
 			return;
 		} else if(n->next == NULL) {
+			*head = n->next;
+			free(n->data);
 			free(n);
 		} else {
-			prev = n;
-			n = n->next;
-			free(prev);
+			*head = n->next;
+			free(n->data);
+			free(n);
 		}
-
+		return;
 	}
+
 	for(i=0;i<index;i++) {
 		if(n == NULL) {
 			return;
 		}
 		if(n->next == NULL) {
+			free(n->data);
 			free(n);
 			n = NULL;
 			return;
@@ -58,6 +61,7 @@ void delete_index(int index, struct Node *head) {
 		n = n->next;
 	}
 	prev->next = n->next;
+	free(n->data);
 	free(n);
 	/* (0)->(1)->(2)->(3)-> */
 }
@@ -86,12 +90,14 @@ void print_list(struct Node *head) {
 	struct Node* n;
 	n = head;
 
-	while(n != NULL && n->data != NULL) {
-		printf("%c\n", *(n->data));
+	while(n != NULL) {
+		printf("%c ->", *(n->data));
 		if(n->next != NULL) {
 			n = n->next;
 		} else {
+			printf("\n");
 			return;
 		}
 	}
+	return;
 }
