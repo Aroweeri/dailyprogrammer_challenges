@@ -101,3 +101,13 @@ void print_list(struct Node *head) {
 	}
 	return;
 }
+
+int numNodes(struct Node *head) {
+	struct Node* n = head;
+	int nodes = 0;
+	while (n != NULL) {
+		n = n->next;
+		nodes++;
+	}
+	return nodes;
+}
