@@ -12,6 +12,9 @@ int main() {
 	char* solution;
 	char* letterData;
 	struct Node* fourLetterHead = NULL;
+	struct Node* threeLetterHead = NULL;
+	struct Node* twoLetterHead = NULL;
+	struct Node* oneLetterHead = NULL;
 	int i;
 
 	random_alphabet = generate_random_permutation();
@@ -28,8 +31,32 @@ int main() {
 		add_node(&fourLetterHead, letterData);
 	}
 
+	for(i=0;i<numThreeLetters;i++) {
+		letterData = malloc(sizeof(char)*4); /* +1 for null term */
+		strcpy(letterData,letters[threeLetters[i]-97]);
+		add_node(&threeLetterHead, letterData);
+	}
+
+	for(i=0;i<numTwoLetters;i++) {
+		letterData = malloc(sizeof(char)*3); /* +1 for null term */
+		strcpy(letterData,letters[twoLetters[i]-97]);
+		add_node(&twoLetterHead, letterData);
+	}
+
+	for(i=0;i<numOneLetters;i++) {
+		letterData = malloc(sizeof(char)*2); /* +1 for null term */
+		strcpy(letterData,letters[oneLetters[i]-97]);
+		add_node(&oneLetterHead, letterData);
+	}
+
 	print_list(fourLetterHead);
+	print_list(threeLetterHead);
+	print_list(twoLetterHead);
+	print_list(oneLetterHead);
 	delete_list(fourLetterHead);
+	delete_list(threeLetterHead);
+	delete_list(twoLetterHead);
+	delete_list(oneLetterHead);
 
 	free(solution);
 	free(random_alphabet);
