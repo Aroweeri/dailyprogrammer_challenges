@@ -11,7 +11,7 @@ int main() {
 	char* random_alphabet; /* contains output from generate_random_permutation() */
 	char* smorse_alphabet; /* smorse version of random_alphabet */
 	char* solution;        /* will contain the alphabet that is solved from the random smorse alphabet. */
-	char* searchPortion;   /* part of the smorse alphabet. Choose random index, copy everything after. */
+	char* searchPortion = NULL; /* part of the smorse alphabet. Choose random index, copy everything after. */
 	char* letterData;      /* temp variable used when filling the linked lists. */
 
 	/* linked lists for each classification of letter */
@@ -21,7 +21,7 @@ int main() {
 	struct Node* oneLetterHead = NULL;
 
 	char *randomLetter = NULL; /* smorse of a random letter from whichever linked list we're working with. */
-	char randomLocation = 0;   /* random location to start searching in the smorse_alphabet. */
+	char *randomLocation = 0;  /* random location to start searching in the smorse_alphabet. */
 
 	int i;
 
@@ -63,17 +63,22 @@ int main() {
 	print_list(oneLetterHead);
 
 	srand(time(NULL));
-	randomLocation = rand()%PERMUTATION_LENGTH;
+	randomLocation = smorse_alphabet+(rand()%PERMUTATION_LENGTH);
 
 	randomLetter = malloc(sizeof(char)*5); /* four letters */
 	strcpy(randomLetter,get_index(rand()%numNodes(fourLetterHead), fourLetterHead));
 	printf("randomLetter: %s\n", randomLetter);
-	printf("randomlocation: %d\n", randomLocation);
+
+	searchPortion = malloc(sizeof(char)*(strlen(randomLocation)+1));
+	strcpy(searchPortion, randomLocation);
+
+	printf("search portion: %s\n", searchPortion);
 
 	delete_list(fourLetterHead);
 	delete_list(threeLetterHead);
 	delete_list(twoLetterHead);
 	delete_list(oneLetterHead);
+	free(searchPortion);
 	free(randomLetter);
 	free(solution);
 	free(random_alphabet);
