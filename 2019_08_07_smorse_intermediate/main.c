@@ -8,17 +8,22 @@
 #include "common.h"
 
 int main() {
-	char* random_alphabet;
-	char* smorse_alphabet;
-	char* solution;
-	char* letterData;
+	char* random_alphabet; /* contains output from generate_random_permutation() */
+	char* smorse_alphabet; /* smorse version of random_alphabet */
+	char* solution;        /* will contain the alphabet that is solved from the random smorse alphabet. */
+	char* searchPortion;   /* part of the smorse alphabet. Choose random index, copy everything after. */
+	char* letterData;      /* temp variable used when filling the linked lists. */
+
+	/* linked lists for each classification of letter */
 	struct Node* fourLetterHead = NULL;
 	struct Node* threeLetterHead = NULL;
 	struct Node* twoLetterHead = NULL;
 	struct Node* oneLetterHead = NULL;
+
+	char *randomLetter = NULL; /* smorse of a random letter from whichever linked list we're working with. */
+	char randomLocation = 0;   /* random location to start searching in the smorse_alphabet. */
+
 	int i;
-	char *randomLetter = NULL;
-	char randomLocation = 0;
 
 	random_alphabet = generate_random_permutation();
 	smorse_alphabet = smorse(random_alphabet);
