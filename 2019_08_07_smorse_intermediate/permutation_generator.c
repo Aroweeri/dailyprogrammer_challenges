@@ -7,7 +7,6 @@
 char* generate_random_permutation() {
 	struct Node* head; /* head of linked list */
 	struct Node* n; /* linked list iterator */
-	struct Node* new;
 	char* newData;
 	int i = 0;
 	int j = 0;
@@ -24,7 +23,7 @@ char* generate_random_permutation() {
 		add_node(&head, newData);
 	}
 
-	random_alphabet = malloc(sizeof(char)*26);
+	random_alphabet = malloc(sizeof(char)*26+1); /* +1 for null */
 	for(i=0;i<26;i++) {
 		nexts = 0;
 		j=rand()%(26-i);
@@ -39,5 +38,6 @@ char* generate_random_permutation() {
 	}
 
 	delete_list(head);
+	random_alphabet[26] = '\0';
 	return random_alphabet;
 }

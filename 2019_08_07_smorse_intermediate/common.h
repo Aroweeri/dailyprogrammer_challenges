@@ -8,4 +8,9 @@ const char threeLetters[8];
 const char twoLetters[4];
 const char oneLetters[2];
 
+const char numFourLetters;
+const char numThreeLetters;
+const char numTwoLetters;
+const char numOneLetters;
+
 #endif

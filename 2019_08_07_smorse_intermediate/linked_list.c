@@ -91,7 +91,7 @@ void print_list(struct Node *head) {
 	n = head;
 
 	while(n != NULL) {
-		printf("%c ->", *(n->data));
+		printf("%s -> ", n->data);
 		if(n->next != NULL) {
 			n = n->next;
 		} else {
