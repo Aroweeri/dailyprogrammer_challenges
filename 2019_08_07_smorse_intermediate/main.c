@@ -21,7 +21,7 @@ int main() {
 	struct Node* oneLetterHead = NULL;
 
 	char *randomLetter = NULL; /* smorse of a random letter from whichever linked list we're working with. */
-	char *randomLocation = 0;  /* random location to start searching in the smorse_alphabet. */
+	char randomLocation = 0;  /* random location to start searching in the smorse_alphabet. */
 
 	int i;
 
@@ -63,16 +63,22 @@ int main() {
 	print_list(oneLetterHead);
 
 	srand(time(NULL));
-	randomLocation = smorse_alphabet+(rand()%PERMUTATION_LENGTH);
+	randomLocation = rand()%PERMUTATION_LENGTH;
 
 	randomLetter = malloc(sizeof(char)*5); /* four letters */
 	strcpy(randomLetter,get_index(rand()%numNodes(fourLetterHead), fourLetterHead));
 	printf("randomLetter: %s\n", randomLetter);
 
-	searchPortion = malloc(sizeof(char)*(strlen(randomLocation)+1));
-	strcpy(searchPortion, randomLocation);
+	searchPortion = malloc(sizeof(char)*(strlen(smorse_alphabet)+1));
+	strcpy(searchPortion, smorse_alphabet);
+
+	/* just mask out the parts that we aren't searching for right now. */
+	for(i=0;i<randomLocation;i++) {
+		searchPortion[i] = '!';
+	}
 
 	printf("search portion: %s\n", searchPortion);
+	printf("Found at: %s\n", strstr(searchPortion, randomLetter));
 
 	delete_list(fourLetterHead);
 	delete_list(threeLetterHead);
