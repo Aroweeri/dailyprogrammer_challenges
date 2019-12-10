@@ -8,6 +8,6 @@ const char twoLetters[]   = {'a','i','m','n'};
 const char oneLetters[]   = {'e','t'};
 
 const char numFourLetters = sizeof(fourLetters)/sizeof(fourLetters[0]);
-const char numThreeLetters = sizeof(threeLetters)/sizeof(fourLetters[0]);
-const char numTwoLetters = sizeof(twoLetters)/sizeof(fourLetters[0]);
-const char numOneLetters = sizeof(oneLetters)/sizeof(fourLetters[0]);
+const char numThreeLetters = sizeof(threeLetters)/sizeof(threeLetters[0]);
+const char numTwoLetters = sizeof(twoLetters)/sizeof(twoLetters[0]);
+const char numOneLetters = sizeof(oneLetters)/sizeof(oneLetters[0]);

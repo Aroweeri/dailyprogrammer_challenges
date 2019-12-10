@@ -41,7 +41,9 @@ void delete_index(int index, struct Node **head) {
 			free(n);
 		} else {
 			*head = n->next;
-			free(n->data);
+			if(n->data != NULL) {
+				free(n->data);
+			}
 			free(n);
 		}
 		return;

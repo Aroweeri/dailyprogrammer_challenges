@@ -14,6 +14,23 @@ struct LetterLists {
 	struct Node* oneLetterHead;
 };
 
+struct Node** findHeadToUse(struct LetterLists* lists) {
+	struct Node** returnThis = NULL;
+	if(numNodes(lists->fourLetterHead) > 0) {
+		returnThis = &(lists->fourLetterHead);
+	}
+	else if(numNodes(lists->threeLetterHead) > 0) {
+		returnThis = &(lists->threeLetterHead);
+	}
+	else if(numNodes(lists->twoLetterHead) > 0) {
+		returnThis = &(lists->twoLetterHead);
+	}
+	else {
+		returnThis = &(lists->oneLetterHead);
+	}
+	return returnThis;
+}
+
 void generateLists(struct LetterLists* lists) {
 	int i;
 	char* letterData;      /* temp variable used when filling the linked lists. */
@@ -71,9 +88,11 @@ char* decodeSmorse(char* smorse_alphabet, struct LetterLists* lists) {
 	char *foundLocation = NULL; /* return value from strstr */
 	char *solution = NULL;
 	char* searchPortion = NULL; /* part of the smorse alphabet. Choose random index, copy everything after. */
+	struct Node** headToUse = NULL;
 
 	int j;
-	int lengthOfMorse = 4;
+	int lengthOfMorse = 0;
+	int remainingNodes = 0;
 
 
 	solution = malloc(sizeof(char)*PERMUTATION_LENGTH+1); /* +1 for null */
@@ -81,13 +100,33 @@ char* decodeSmorse(char* smorse_alphabet, struct LetterLists* lists) {
 	randomLetter = malloc(sizeof(char)*5); /* four letters */
 	searchPortion = NULL;
 
-	while(numNodes(lists->fourLetterHead)>0) {
-		/* printf("\nCurrent Progress:   %s\n", solution); */
-		randomLocation = rand()%PERMUTATION_LENGTH;
+	remainingNodes+=numNodes(lists->fourLetterHead);
+	remainingNodes+=numNodes(lists->threeLetterHead);
+	remainingNodes+=numNodes(lists->twoLetterHead);
+	remainingNodes+=numNodes(lists->oneLetterHead);
 
-		randomLetterIndex = rand()%numNodes(lists->fourLetterHead);
-		strcpy(randomLetter,get_index(randomLetterIndex, lists->fourLetterHead));
-		delete_index(randomLetterIndex, &(lists->fourLetterHead));
+
+	while(remainingNodes > 0) {
+		/*printf("Remaining Nodes: %d\n", remainingNodes);*/
+		/*printf("\nCurrent Progress:   %s\n", solution);*/
+		randomLocation = rand()%PERMUTATION_LENGTH;
+		headToUse = findHeadToUse(lists);
+		/*headToUse = &(lists->fourLetterHead);*/
+
+		if(*headToUse == lists->fourLetterHead) {
+			lengthOfMorse = 4;
+		} else if(*headToUse == lists->threeLetterHead) {
+			lengthOfMorse = 3;
+		} else if(*headToUse == lists->twoLetterHead) {
+			lengthOfMorse = 2;
+		} else if(*headToUse == lists->oneLetterHead) {
+			lengthOfMorse = 1;
+		}
+
+		randomLetterIndex = rand()%numNodes(*headToUse);
+		strcpy(randomLetter,get_index(randomLetterIndex, *headToUse));
+		/*printf("search for: %s\n", randomLetter);*/
+		delete_index(randomLetterIndex, headToUse);
 		/* printf("Searching for: %s / %c\n", randomLetter, lookupFromMorse(randomLetter)); */
 
 		searchPortion = solution+randomLocation;
@@ -106,12 +145,14 @@ char* decodeSmorse(char* smorse_alphabet, struct LetterLists* lists) {
 				for(j=1;j<lengthOfMorse;j++) {
 					*(foundLocation+j) = ' ';
 				}
+				remainingNodes--;
 			}
 		} else {
 			*foundLocation = lookupFromMorse(randomLetter);
 			for(j=1;j<lengthOfMorse;j++) {
 				*(foundLocation+j) = ' ';
 			}
+			remainingNodes--;
 		}
 
 	}
