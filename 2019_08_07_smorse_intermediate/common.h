@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #define PERMUTATION_LENGTH 82
+
 const char *letters[26];
 const char fourLetters[12];
 const char threeLetters[8];
