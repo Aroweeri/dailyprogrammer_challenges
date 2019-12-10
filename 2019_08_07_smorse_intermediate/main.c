@@ -164,7 +164,10 @@ int main() {
 	char* random_alphabet; /* contains output from generate_random_permutation() */
 	char* smorse_alphabet; /* smorse version of random_alphabet */
 	char* solution;        /* will contain the alphabet that is solved from the random smorse alphabet. */
+	char* trimmed;
+	char* trimmedPointer;
 	int decodeAttempts = 0;
+	int i;
 
 	struct LetterLists *lists;
 
@@ -189,15 +192,27 @@ int main() {
 		generateLists(lists);
 	}
 
+	trimmed = malloc(sizeof(char)*26+1);
+	trimmed[26] = '\0';
+	trimmedPointer = trimmed;
+	for(i=0;i<PERMUTATION_LENGTH;i++) {
+		if(solution[i] != ' ') {
+			*trimmedPointer = solution[i];
+			trimmedPointer++;
+		}
+	}
+
 	printf("Decode attempts:    %d\n", decodeAttempts);
 	printf("Original alphabet:  %s\n", random_alphabet);
 	printf("Original:           %s\n", smorse_alphabet);
 	printf("Completed solution: %s\n", solution);
+	printf("Trimmed:            %s\n", trimmed);
 
 	delete_list(lists->fourLetterHead);
 	delete_list(lists->threeLetterHead);
 	delete_list(lists->twoLetterHead);
 	delete_list(lists->oneLetterHead);
+	free(trimmed);
 	free(lists);
 	free(solution);
 	free(random_alphabet);
